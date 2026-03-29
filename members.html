@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Members & Officers — Clark Architecture Club</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --paper: #f5f1e8;
+    --warm: #c8b89a;
+    --chargeryellow: #e0a80c;
+    --chargeryellow-light: #edd694;
+    --charcoal: #3d3830;
+    --muted: #7a7060;
+    --line: rgba(26,24,20,0.15);
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); line-height: 1.5; text-decoration: none; }
+  .nav-logo strong { display: block; color: var(--ink); font-size: 0.85rem; letter-spacing: 0.05em; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--chargeryellow); }
+  .nav-cta { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); background: var(--chargeryellow); padding: 0.55rem 1.4rem; text-decoration: none; border-radius: 2px; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--charcoal); }
+
+  .page-hero {
+    min-height: 52vh; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 10rem 5rem 4rem; position: relative; overflow: hidden; background: var(--charcoal);
+  }
+  .page-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(200,184,154,0.06) 50px),
+                repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(200,184,154,0.06) 50px);
+    pointer-events: none;
+  }
+  .hero-bg-text {
+    position: absolute; right: -1rem; bottom: -2rem;
+    font-family: 'Playfair Display', serif; font-size: clamp(8rem,18vw,16rem); font-weight: 900;
+    color: rgba(245,241,232,0.04); line-height: 1; pointer-events: none; user-select: none; letter-spacing: -0.04em;
+  }
+  .page-hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--chargeryellow); margin-bottom: 1.2rem; animation: fadeUp 0.5s ease both; }
+  .page-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem,6vw,5rem); font-weight: 900; color: var(--paper); line-height: 1.05; max-width: 680px; animation: fadeUp 0.5s 0.1s ease both; }
+  .page-hero-title em { font-style: italic; color: var(--warm); }
+  .page-hero-sub { font-size: 1rem; line-height: 1.8; color: var(--warm); max-width: 480px; margin-top: 1.5rem; animation: fadeUp 0.5s 0.2s ease both; }
+  .hero-scroll-hint { margin-top: 3rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(200,184,154,0.5); animation: fadeUp 0.5s 0.3s ease both; }
+
+  .breadcrumb { padding: 1.2rem 5rem; display: flex; align-items: center; gap: 0.6rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line); }
+  .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--chargeryellow); }
+  .breadcrumb span { color: var(--chargeryellow); }
+
+  section { scroll-margin-top: 72px; }
+  .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 3rem; }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,3vw,2.6rem); font-weight: 700; line-height: 1.1; }
+  .section-line { flex: 1; height: 1px; background: var(--line); }
+
+  #about { padding: 6rem 5rem; display: grid; grid-template-columns: 1.2fr 1fr; gap: 6rem; align-items: start; }
+  .about-lead { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-style: italic; line-height: 1.7; color: var(--ink); margin-bottom: 2rem; }
+  .about-body p { font-size: 1rem; line-height: 1.9; color: var(--charcoal); margin-bottom: 1.25rem; }
+  .about-values { display: flex; flex-direction: column; }
+  .value-row { display: flex; align-items: flex-start; gap: 1.5rem; padding: 1.5rem 0; border-top: 1px solid var(--line); }
+  .value-row:last-child { border-bottom: 1px solid var(--line); }
+  .value-icon { width: 40px; height: 40px; flex-shrink: 0; background: var(--charcoal); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .value-icon svg { width: 18px; height: 18px; stroke: var(--warm); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .value-text h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem; }
+  .value-text p { font-size: 0.85rem; line-height: 1.6; color: var(--muted); }
+
+  .stats-bar { background: var(--ink); padding: 3rem 5rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem; border-top: 3px solid var(--chargeryellow); }
+  .stat-cell { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 1rem; border-right: 1px solid rgba(245,241,232,0.1); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-big { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--paper); line-height: 1; margin-bottom: 0.4rem; }
+  .stat-big em { font-style: italic; color: var(--chargeryellow); }
+  .stat-desc { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--warm); }
+
+  #officers { padding: 6rem 5rem; background: var(--chargeryellow-light); }
+  .officers-intro { max-width: 560px; font-size: 1rem; line-height: 1.8; color: var(--charcoal); margin-bottom: 3.5rem; }
+  .officers-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+  .officer-card { background: var(--paper); border: 1px solid rgba(26,24,20,0.12); border-radius: 4px; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
+  .officer-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,24,20,0.1); }
+  .officer-card.president { grid-column: 1 / -1; display: grid; grid-template-columns: 240px 1fr; }
+  .officer-avatar { height: 200px; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--paper); position: relative; overflow: hidden; }
+  .officer-card.president .officer-avatar { height: 100%; font-size: 4.5rem; min-height: 200px; }
+  .av-bg-pattern { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 11px), repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 11px); }
+  .av-initials { position: relative; z-index: 1; }
+  .officer-body { padding: 1.5rem; }
+  .officer-role { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--chargeryellow); margin-bottom: 0.5rem; }
+  .officer-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 0.25rem; }
+  .officer-grade { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
+  .officer-bio { font-size: 0.88rem; line-height: 1.7; color: var(--charcoal); margin-bottom: 1.25rem; }
+  .officer-card.president .officer-bio { font-size: 0.95rem; }
+  .officer-interest { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--charcoal); background: var(--chargeryellow-light); padding: 0.3rem 0.75rem; border-radius: 2px; }
+
+  .av-rust { background: #b5451b; }
+  .av-charcoal { background: #3d3830; }
+  .av-warm { background: #8a6a3a; }
+  .av-slate { background: #4a5a6a; }
+  .av-forest { background: #3a5a3a; }
+  .av-plum { background: #5a3a5a; }
+  .av-navy { background: #2a3a5a; }
+
+  #members { padding: 6rem 5rem; }
+  .members-intro { max-width: 560px; font-size: 1rem; line-height: 1.8; color: var(--muted); margin-bottom: 3.5rem; }
+  .grade-block { margin-bottom: 3.5rem; }
+  .grade-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .grade-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--chargeryellow); white-space: nowrap; }
+  .grade-divider { flex: 1; height: 1px; background: var(--line); }
+  .grade-count { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em; }
+  .members-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 0.75rem; }
+  .member-chip { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: var(--white); border: 1px solid var(--line); border-radius: 3px; transition: border-color 0.2s, background 0.2s; cursor: default; }
+  .member-chip:hover { border-color: var(--chargeryellow); background: var(--chargeryellow-light); }
+  .chip-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500; color: var(--paper); flex-shrink: 0; }
+  .chip-name { font-size: 0.88rem; font-weight: 500; color: var(--ink); line-height: 1.2; }
+  .chip-interest { font-size: 0.72rem; color: var(--muted); }
+
+  #advisor { padding: 6rem 5rem; background: var(--charcoal); }
+  #advisor .section-title { color: var(--paper); }
+  #advisor .section-num { color: var(--warm); }
+  #advisor .section-line { background: rgba(245,241,232,0.15); }
+  .advisor-card { display: grid; grid-template-columns: 280px 1fr; gap: 4rem; align-items: start; }
+  .advisor-portrait { background: var(--ink); border: 1px solid rgba(245,241,232,0.15); border-radius: 4px; overflow: hidden; aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; position: relative; }
+  .advisor-portrait-inner { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 900; color: rgba(245,241,232,0.12); user-select: none; }
+  .advisor-portrait::after { content: 'PHOTO'; position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; color: rgba(245,241,232,0.3); }
+  .advisor-info h3 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--paper); margin-bottom: 0.4rem; }
+  .advisor-title-tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--chargeryellow); margin-bottom: 2rem; }
+  .advisor-bio { font-size: 1rem; line-height: 1.9; color: var(--warm); margin-bottom: 1.5rem; }
+  .advisor-details { display: flex; flex-direction: column; }
+  .advisor-detail { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 0; border-top: 1px solid rgba(245,241,232,0.1); font-size: 0.88rem; }
+  .advisor-detail:last-child { border-bottom: 1px solid rgba(245,241,232,0.1); }
+  .ad-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(200,184,154,0.6); min-width: 80px; }
+  .ad-value { color: var(--paper); }
+  .ad-value a { color: var(--chargeryellow); text-decoration: none; }
+  .ad-value a:hover { text-decoration: underline; }
+
+  .join-cta { background: var(--chargeryellow); padding: 5rem; text-align: center; position: relative; overflow: hidden; }
+  .join-cta::before { content: 'JOIN'; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-family: 'Playfair Display', serif; font-size: 20rem; font-weight: 900; color: rgba(245,241,232,0.05); pointer-events: none; white-space: nowrap; }
+  .join-cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 900; color: var(--paper); margin-bottom: 1rem; position: relative; }
+  .join-cta p { font-size: 1rem; color: rgba(245,241,232,0.75); margin-bottom: 2.5rem; position: relative; }
+  .join-cta-btns { display: flex; justify-content: center; gap: 1rem; position: relative; }
+  .cta-btn-white { background: var(--paper); color: var(--chargeryellow); padding: 0.9rem 2.2rem; text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; font-weight: 600; transition: background 0.2s, color 0.2s; }
+  .cta-btn-white:hover { background: var(--ink); color: var(--paper); }
+  .cta-btn-outline { border: 1px solid rgba(245,241,232,0.5); color: var(--paper); padding: 0.9rem 2.2rem; text-decoration: none; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; transition: background 0.2s; }
+  .cta-btn-outline:hover { background: rgba(245,241,232,0.1); }
+
+  footer { background: var(--ink); color: var(--paper); padding: 2rem 5rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(245,241,232,0.1); }
+  .footer-left { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .footer-right { font-size: 0.8rem; color: var(--muted); }
+  .footer-right a { color: var(--muted); text-decoration: none; }
+  .footer-right a:hover { color: var(--chargeryellow); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .page-hero { padding: 8rem 1.5rem 3rem; }
+    .breadcrumb { padding: 1rem 1.5rem; }
+    #about { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.5rem; }
+    .stats-bar { grid-template-columns: 1fr 1fr; padding: 2.5rem 1.5rem; }
+    .stat-cell:nth-child(2) { border-right: none; }
+    #officers, #members { padding: 4rem 1.5rem; }
+    .officers-grid { grid-template-columns: 1fr; }
+    .officer-card.president { grid-template-columns: 1fr; }
+    .officer-card.president .officer-avatar { height: 160px; }
+    #advisor { padding: 4rem 1.5rem; }
+    .advisor-card { grid-template-columns: 1fr; gap: 2rem; }
+    .join-cta { padding: 3.5rem 1.5rem; }
+    .join-cta-btns { flex-direction: column; align-items: center; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+  }
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <strong>Architecture Club</strong>
+    Ed W. Clark High School · Las Vegas
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#meetings">Meetings</a></li>
+    <li><a href="index.html#gallery">Gallery</a></li>
+    <li><a href="members.html" class="active">Members</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#join" class="nav-cta">Join Us</a>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-bg-text">People</div>
+  <p class="page-hero-eyebrow">2026–27 School Year · Clark High School</p>
+  <h1 class="page-hero-title">The <em>People</em> Behind the Club</h1>
+  <p class="page-hero-sub">Meet the officers, members, and faculty advisor who make Clark Architecture Club run.</p>
+  <p class="hero-scroll-hint">&#8595; Scroll to explore</p>
+</div>
+
+<div class="breadcrumb">
+  <a href="index.html">Home</a>
+  <span>&#8250;</span>
+  <span>Members &amp; Officers</span>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <div class="section-header">
+      <span class="section-num">01 —</span>
+      <h2 class="section-title">About the Club</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-body">
+      <p class="about-lead">We are students who believe architecture is one of the most human acts — shaping the spaces where life happens.</p>
+      <p>Clark Architecture Club was founded by a small group of students who wanted more than what the standard curriculum offered. We wanted to draw, build, critique, and imagine — together. Over three years, we've grown into one of Clark's most active design-focused organizations.</p>
+      <p>Our membership spans every grade and every level of experience. Some members are set on attending architecture school; others just love the creative process. We welcome both. What we share is a fascination with the built environment and how it shapes human experience.</p>
+      <p>We are rooted in Las Vegas — a city that is itself one of the most architecturally audacious places on earth. We take that as both inspiration and responsibility.</p>
+    </div>
+  </div>
+  <div class="about-values">
+    <div class="value-row">
+      <div class="value-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <div class="value-text">
+        <h4>Make things by hand</h4>
+        <p>Sketching, drafting, and model-making keep our ideas physical and honest. We start with pencil before pixels.</p>
+      </div>
+    </div>
+    <div class="value-row">
+      <div class="value-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      </div>
+      <div class="value-text">
+        <h4>Critique generously</h4>
+        <p>Good design comes from honest feedback. We give and receive it as gifts, not attacks.</p>
+      </div>
+    </div>
+    <div class="value-row">
+      <div class="value-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <div class="value-text">
+        <h4>Design for community</h4>
+        <p>Architecture that doesn't serve people is just sculpture. We keep the human in every project we take on.</p>
+      </div>
+    </div>
+    <div class="value-row">
+      <div class="value-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="value-text">
+        <h4>Be curious, always</h4>
+        <p>We ask why a building stands the way it does, who it serves, and what it says. Then we ask it again.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-cell"><div class="stat-big">number<em>+</em></div><div class="stat-desc">Active Members</div></div>
+  <div class="stat-cell"><div class="stat-big"><em>6</em></div><div class="stat-desc">Officer Positions</div></div>
+  <div class="stat-cell"><div class="stat-big">1</div><div class="stat-desc">Year Established</div></div>
+  <div class="stat-cell"><div class="stat-big">4</div><div class="stat-desc">Grade Levels</div></div>
+</div>
+
+<!-- OFFICERS -->
+<section id="officers">
+  <div class="section-header">
+    <span class="section-num">02 —</span>
+    <h2 class="section-title">Officers</h2>
+    <div class="section-line"></div>
+  </div>
+  <p class="officers-intro">Our officer team is elected each spring by club members. Officers plan meetings, coordinate projects, manage the budget, and represent the club to the school administration.</p>
+
+  <div class="officers-grid">
+    <!-- PRESIDENT -->
+    <div class="officer-card president">
+      <div class="officer-avatar av-rust">
+        <div class="av-bg-pattern"></div>
+        <div class="av-initials">AA</div>
+      </div>
+      <div class="officer-body">
+        <div class="officer-role">President</div>
+        <div class="officer-name">[Your Name Here]</div>
+        <div class="officer-grade">Senior · 12th Grade</div>
+        <p class="officer-bio">As club president, blah blah blah</p>
+        <span class="officer-interest">&#9632; Interested in: blank</span>
+      </div>
+    </div>
+    <!-- VP -->
+    <div class="officer-card">
+      <div class="officer-avatar av-charcoal"><div class="av-bg-pattern"></div><div class="av-initials">VP</div></div>
+      <div class="officer-body">
+        <div class="officer-role">Vice President</div>
+        <div class="officer-name">[Name]</div>
+        <div class="officer-grade">Junior · 11th Grade</div>
+        <p class="officer-bio">Coordinates guest speakers and manages member onboarding. Passionate about sustainable building and the future of desert architecture.</p>
+        <span class="officer-interest">&#9632; Interested in: blah blah</span>
+      </div>
+    </div>
+    <!-- SECRETARY -->
+    <div class="officer-card">
+      <div class="officer-avatar av-slate"><div class="av-bg-pattern"></div><div class="av-initials">SC</div></div>
+      <div class="officer-body">
+        <div class="officer-role">Secretary</div>
+        <div class="officer-name">[Name]</div>
+        <div class="officer-grade">Junior · 11th Grade</div>
+        <p class="officer-bio">Keeps meeting notes, handles club communications, and maintains the member roster. Also leads the club newsletter and social media.</p>
+        <span class="officer-interest">&#9632; Interested in: Interior Architecture</span>
+      </div>
+    </div>
+    <!-- TREASURER -->
+    <div class="officer-card">
+      <div class="officer-avatar av-warm"><div class="av-bg-pattern"></div><div class="av-initials">TR</div></div>
+      <div class="officer-body">
+        <div class="officer-role">Treasurer</div>
+        <div class="officer-name">[Name]</div>
+        <div class="officer-grade">Sophomore · 10th Grade</div>
+        <p class="officer-bio">Manages dues, tracks the materials budget, and coordinates fundraising for field trips and the annual showcase.</p>
+        <span class="officer-interest">&#9632; Interested in: Landscape Architecture</span>
+      </div>
+    </div>
+    <!-- PROJECTS LEAD -->
+    <div class="officer-card">
+      <div class="officer-avatar av-forest"><div class="av-bg-pattern"></div><div class="av-initials">PL</div></div>
+      <div class="officer-body">
+        <div class="officer-role">Projects Lead</div>
+        <div class="officer-name">[Name]</div>
+        <div class="officer-grade">Senior · 12th Grade</div>
+        <p class="officer-bio">Develops and runs semester design challenges. Writes project briefs, forms teams, and facilitates critique sessions.</p>
+        <span class="officer-interest">&#9632; Interested in: Residential Design</span>
+      </div>
+    </div>
+    <!-- HISTORIAN -->
+    <div class="officer-card">
+      <div class="officer-avatar av-plum"><div class="av-bg-pattern"></div><div class="av-initials">HT</div></div>
+      <div class="officer-body">
+        <div class="officer-role">Historian</div>
+        <div class="officer-name">[Name]</div>
+        <div class="officer-grade">Sophomore · 10th Grade</div>
+        <p class="officer-bio">Documents meetings and projects through photography and written records. Curates the annual showcase archive and portfolio binder.</p>
+        <span class="officer-interest">&#9632; Interested in: Architectural History</span>
+      </div>
+    </div>
+    <!-- OUTREACH -->
+    <div class="officer-card">
+      <div class="officer-avatar av-navy"><div class="av-bg-pattern"></div><div class="av-initials">OO</div></div>
+      <div class="officer-body">
+        <div class="officer-role">Outreach Officer</div>
+        <div class="officer-name">[Name]</div>
+        <div class="officer-grade">Freshman · 9th Grade</div>
+        <p class="officer-bio">Recruits new members, posts flyers, and represents the club at school fairs. Coordinates collaboration with Clark STEM and art clubs.</p>
+        <span class="officer-interest">&#9632; Interested in: Public Space Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<section id="members">
+  <div class="section-header">
+    <span class="section-num">03 —</span>
+    <h2 class="section-title">General Members</h2>
+    <div class="section-line"></div>
+  </div>
+  <p class="members-intro">Our members are the heart of the club. Listed by grade — replace these placeholders with your real roster!</p>
+
+  <div class="grade-block">
+    <div class="grade-header"><span class="grade-label">Seniors — 12th Grade</span><div class="grade-divider"></div><span class="grade-count">8 members</span></div>
+    <div class="members-list">
+      <div class="member-chip"><div class="chip-avatar av-rust">AM</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Urban Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-charcoal">BK</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Sustainable Arch</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-slate">CL</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Interior Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-warm">DM</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Landscape</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-forest">EN</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Residential</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-plum">FO</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Urban Planning</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-navy">GP</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Structural Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-rust">HR</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Historic Preservation</div></div></div>
+    </div>
+  </div>
+
+  <div class="grade-block">
+    <div class="grade-header"><span class="grade-label">Juniors — 11th Grade</span><div class="grade-divider"></div><span class="grade-count">11 members</span></div>
+    <div class="members-list">
+      <div class="member-chip"><div class="chip-avatar av-charcoal">IS</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Commercial Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-warm">JT</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Urban Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-slate">KU</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Interior Arch</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-forest">LV</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">3D Modeling</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-plum">MW</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Landscape</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-navy">NX</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Sustainable Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-rust">OY</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Public Spaces</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-charcoal">PZ</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Residential</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-warm">QA</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Urban Planning</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-slate">RB</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Drafting &amp; Drawing</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-forest">SC</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Model Making</div></div></div>
+    </div>
+  </div>
+
+  <div class="grade-block">
+    <div class="grade-header"><span class="grade-label">Sophomores — 10th Grade</span><div class="grade-divider"></div><span class="grade-count">13 members</span></div>
+    <div class="members-list">
+      <div class="member-chip"><div class="chip-avatar av-plum">TD</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Urban Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-navy">UE</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Interior Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-rust">VF</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Sustainable Arch</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-charcoal">WG</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Landscape Arch</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-warm">XH</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Structural Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-slate">YI</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Residential</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-forest">ZJ</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Commercial</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-plum">AK</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Public Space</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-navy">BL</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">3D Modeling</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-rust">CM</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Historic Pres.</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-charcoal">DN</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Urban Planning</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-warm">EO</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Drafting</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-slate">FP</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Interior Arch</div></div></div>
+    </div>
+  </div>
+
+  <div class="grade-block">
+    <div class="grade-header"><span class="grade-label">Freshmen — 9th Grade</span><div class="grade-divider"></div><span class="grade-count">10 members</span></div>
+    <div class="members-list">
+      <div class="member-chip"><div class="chip-avatar av-forest">GQ</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Just Curious!</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-plum">HR</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Just Curious!</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-navy">IS</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Drawing</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-rust">JT</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Model Making</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-charcoal">KU</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Just Curious!</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-warm">LV</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Urban Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-slate">MW</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Drawing</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-forest">NX</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Just Curious!</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-plum">OY</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Sustainable Design</div></div></div>
+      <div class="member-chip"><div class="chip-avatar av-navy">PZ</div><div><div class="chip-name">[Member Name]</div><div class="chip-interest">Just Curious!</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVISOR -->
+<section id="advisor">
+  <div class="section-header">
+    <span class="section-num">04 —</span>
+    <h2 class="section-title">Faculty Advisor</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="advisor-card">
+    <div class="advisor-portrait">
+      <div class="advisor-portrait-inner">ADV</div>
+    </div>
+    <div class="advisor-info">
+      <h3>[Advisor Name]</h3>
+      <div class="advisor-title-tag">Faculty Advisor</div>
+      <p class="advisor-bio">[Advisor Name] has been a member of Clark High School's faculty since [year]. As a [subject] teacher, they bring a deep appreciation for creative process and visual thinking to their role as our faculty advisor. They help the club navigate school resources, connect with outside professionals, and ensure every member has a voice in how we run things.</p>
+      <div class="advisor-details">
+        <div class="advisor-detail"><span class="ad-label">Email</span><span class="ad-value"><a href="mailto:advisor@clarkhighschool.edu">email</a></span></div>
+        <div class="advisor-detail"><span class="ad-label">Room</span><span class="ad-value">we need an advisor</span></div>
+        <div class="advisor-detail"><span class="ad-label">Office Hours</span><span class="ad-value">we need an advisor</span></div>
+        <div class="advisor-detail"><span class="ad-label">Department</span><span class="ad-value">we need an advisor</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN CTA -->
+<div class="join-cta">
+  <h2>Want to be on this page next year?</h2>
+  <p>Membership is open to all Clark students.</p>
+  <div class="join-cta-btns">
+    <a href="index.html#join" class="cta-btn-white">Sign Up Now</a>
+    <a href="index.html#meetings" class="cta-btn-outline">See Meeting Schedule</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">Clark Architecture Club · Ed W. Clark High School · Las Vegas, NV<br>&#169; 2026–27 School Year</div>
+  <div class="footer-right"><a href="index.html">&#8592; Back to Home</a></div>
+</footer>
+
+</body>
+</html>

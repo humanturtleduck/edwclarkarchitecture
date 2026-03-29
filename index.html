@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clark Architecture Club — Ed W. Clark High School</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- to whoever works on this: 
+ sorry to whoever is working on this
+ the style.css page is fake and everything is in the html
+ lol
+ i won't be too offended if you end up vibe coding the entire thing, but if you do, use claude and none of that
+ chatgpt bullcrap ty
+
+
+ -->
+<script>
+function toggleMenu() {
+  const navLinks = document.querySelector('.nav-links');
+  const navCta = document.querySelector('.nav-cta');
+  navLinks.classList.toggle('active');
+  navCta.classList.toggle('active');
+}
+
+
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelector('.nav-links').classList.remove('active');
+    document.querySelector('.nav-cta').classList.remove('active');
+  });
+});
+</script>
+<style>
+  :root {
+    --ink: #1a1814;
+    --paper: #f5f1e8;
+    --warm: #c8b89a;
+    --chargeryellow: #e0a80c;
+    --chargeryellow-light: #edd694;
+    --charcoal: #3d3830;
+    --muted: #7a7060;
+    --line: rgba(26,24,20,0.15);
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .nav-logo strong { display: block; color: var(--ink); font-size: 0.85rem; letter-spacing: 0.05em; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--chargeryellow); }
+  .nav-cta {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--chargeryellow);
+    padding: 0.55rem 1.4rem;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--charcoal); }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 72px;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 4rem 4rem 5rem;
+    position: relative;
+  }
+  .hero-left::after {
+    content: '';
+    position: absolute; right: 0; top: 10%; bottom: 10%;
+    width: 1px; background: var(--line);
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--chargeryellow);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--ink);
+    margin-bottom: 2rem;
+  }
+  .hero-title em { font-style: italic; color: var(--chargeryellow); }
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 420px;
+    margin-bottom: 3rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--chargeryellow); }
+  .btn-secondary {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--chargeryellow); border-color: var(--chargeryellow); }
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-blueprint {
+    width: 100%; height: 100%;
+    background: var(--charcoal);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .blueprint-svg {
+    width: 90%; height: 90%;
+    opacity: 0.85;
+  }
+
+  /* SECTION SHARED */
+  section { scroll-margin-top: 72px; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .section-line { flex: 1; height: 1px; background: var(--line); }
+
+  /* ABOUT */
+  #about {
+    padding: 7rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .about-content p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--charcoal);
+    margin-bottom: 1.5rem;
+  }
+  .about-content p:first-of-type {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .about-sidebar {}
+  .pillar {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .pillar:last-child { border-bottom: 1px solid var(--line); }
+  .pillar-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--chargeryellow);
+    margin-bottom: 0.5rem;
+  }
+  .pillar h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .pillar p { font-size: 0.9rem; line-height: 1.7; color: var(--muted); }
+
+  /* MEMBERS */
+  #members { padding: 7rem 5rem; }
+
+  /* PROJECTS */
+  #projects { padding: 7rem 5rem; background: var(--charcoal); color: var(--paper); }
+  #projects .section-title { color: var(--paper); }
+  #projects .section-num { color: var(--warm); }
+  #projects .section-line { background: rgba(245,241,232,0.2); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid rgba(245,241,232,0.15);
+  }
+  .project-card {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid rgba(245,241,232,0.15);
+    position: relative;
+    transition: background 0.3s;
+  }
+  .project-card:last-child { border-right: none; }
+  .project-card:hover { background: rgba(245,241,232,0.05); }
+  .project-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--chargeryellow);
+    margin-bottom: 1rem;
+  }
+  .project-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--paper);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .project-card p { font-size: 0.88rem; line-height: 1.8; color: var(--warm); }
+  .project-arrow {
+    position: absolute; bottom: 2rem; right: 2rem;
+    font-size: 1.2rem;
+    color: var(--chargeryellow);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .project-card:hover .project-arrow { opacity: 1; }
+
+  /* MEETINGS */
+  #meetings { padding: 7rem 5rem; }
+  .meetings-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+  .meeting-info h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  .meeting-info p { font-size: 1rem; line-height: 1.8; color: var(--muted); margin-bottom: 1rem; }
+  .meeting-detail {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .meeting-detail:first-of-type { border-top: 1px solid var(--line); }
+  .detail-icon {
+    width: 36px; height: 36px;
+    background: var(--chargeryellow-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; flex-shrink: 0;
+  }
+  .detail-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .detail-value { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
+  .schedule-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem;
+    border-radius: 4px;
+  }
+  .schedule-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+  .schedule-item {
+    display: flex; gap: 1.5rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid rgba(245,241,232,0.1);
+  }
+  .schedule-item:last-child { border-bottom: none; }
+  .schedule-month {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--chargeryellow);
+    min-width: 40px;
+    padding-top: 3px;
+  }
+  .schedule-event { font-size: 0.9rem; color: var(--warm); line-height: 1.5; }
+  .schedule-event strong { display: block; color: var(--paper); font-weight: 500; }
+
+  /* GALLERY */
+  #gallery { padding: 7rem 5rem; background: var(--chargeryellow-light); }
+  .gallery-intro {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--charcoal);
+    max-width: 500px;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+  }
+  .gallery-item {
+    background: var(--charcoal);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 200px;
+  }
+  .gallery-item:first-child { grid-row: 1 / 3; min-height: 420px; }
+  .gallery-item svg { width: 80%; height: 80%; opacity: 0.6; }
+  .gallery-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 1rem;
+    background: linear-gradient(transparent, rgba(26,24,20,0.8));
+    font-size: 0.75rem;
+    color: var(--warm);
+    letter-spacing: 0.05em;
+  }
+
+  /* MEMBERS / JOIN */
+  #join { padding: 7rem 5rem; }
+  .join-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .join-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .join-text p { font-size: 1rem; line-height: 1.8; color: var(--muted); margin-bottom: 1.5rem; }
+  .perks { list-style: none; margin-bottom: 2.5rem; }
+  .perks li {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--charcoal);
+    padding: 0.5rem 0;
+    line-height: 1.5;
+  }
+  .perks li::before {
+    content: '—';
+    color: var(--chargeryellow);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .join-form {
+    background: var(--ink);
+    padding: 2.5rem;
+    border-radius: 4px;
+  }
+  .join-form h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--paper);
+    margin-bottom: 0.5rem;
+  }
+  .form-subtitle {
+    font-size: 0.85rem;
+    color: var(--warm);
+    margin-bottom: 2rem;
+  }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 0.5rem;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    background: rgba(245,241,232,0.08);
+    border: 1px solid rgba(245,241,232,0.2);
+    color: var(--paper);
+    padding: 0.75rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(245,241,232,0.35); }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--chargeryellow); }
+  .form-group select option { background: var(--charcoal); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-submit {
+    width: 100%;
+    background: var(--chargeryellow);
+    color: var(--paper);
+    border: none;
+    padding: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--charcoal); }
+
+  /* CONTACT */
+  #contact { padding: 7rem 5rem; background: var(--charcoal); color: var(--paper); }
+  #contact .section-title { color: var(--paper); }
+  #contact .section-num { color: var(--warm); }
+  #contact .section-line { background: rgba(245,241,232,0.2); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; }
+  .contact-item h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--chargeryellow);
+    margin-bottom: 0.75rem;
+  }
+  .contact-item p { font-size: 0.95rem; line-height: 1.7; color: var(--warm); }
+  .contact-item a { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(245,241,232,0.3); transition: border-color 0.2s; }
+  .contact-item a:hover { border-color: var(--chargeryellow); color: var(--chargeryellow); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem 5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(245,241,232,0.1);
+  }
+  .footer-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer-right { font-size: 0.8rem; color: var(--muted); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+  .hero-title { animation: fadeUp 0.6s 0.15s ease both; }
+  .hero-desc { animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-actions { animation: fadeUp 0.6s 0.45s ease both; }
+  .hero-stats { animation: fadeUp 0.6s 0.6s ease both; }
+
+  /* HAMBURGER / MOBILE */
+  .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    #home { grid-template-columns: 1fr; }
+    .hero-right { height: 300px; }
+    .hero-left { padding: 3rem 1.5rem; }
+    .hero-left::after { display: none; }
+    #about, #meetings, #join { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.5rem; }
+    #projects, #gallery, #contact, footer { padding: 4rem 1.5rem; }
+    #join { padding: 4rem 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card { border-right: none; border-bottom: 1px solid rgba(245,241,232,0.15); }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item:first-child { grid-column: 1 / -1; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <strong>Architecture Club</strong>
+    Ed W. Clark High School · Las Vegas
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#meetings">Meetings</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+        <li><a href="members.html">Members</a></li>
+    <li><a href="#contact">Contact</a></li>
+
+  </ul>
+  <a href="#join" class="nav-cta">Join Us</a>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Clark High School · Las Vegas · we need to find a freaking advisor, NV</p>
+    <h1 class="hero-title">
+      Build the<br>
+      <em>World</em><br>
+      Around You
+    </h1>
+    <p class="hero-desc">
+      Ed W Clark High School's Architecture Club brings together students passionate about design, space, and the built environment around us. From drafting to 3D modeling — we create, critique, and imagine the desert around us.
+    </p>
+    <div class="hero-actions">
+      <a href="#join" class="btn-primary">Become a Member</a>
+      <a href="#projects" class="btn-secondary">About Us</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">number+</div>
+        <div class="stat-label">Active Members</div>
+      </div>
+      <div>
+        <div class="stat-num">1</div>
+        <div class="stat-label">random statistic</div>
+      </div>
+      <div>
+        <div class="stat-num">1</div>
+        <div class="stat-label">random statistic</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-blueprint">
+      <!-- Blueprint SVG -->
+      <svg class="blueprint-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="500" height="500" fill="#2a2820"/>
+        <!-- Grid lines -->
+        <g stroke="#4a7fa5" stroke-width="0.4" opacity="0.4">
+          <line x1="0" y1="50" x2="500" y2="50"/><line x1="0" y1="100" x2="500" y2="100"/>
+          <line x1="0" y1="150" x2="500" y2="150"/><line x1="0" y1="200" x2="500" y2="200"/>
+          <line x1="0" y1="250" x2="500" y2="250"/><line x1="0" y1="300" x2="500" y2="300"/>
+          <line x1="0" y1="350" x2="500" y2="350"/><line x1="0" y1="400" x2="500" y2="400"/>
+          <line x1="0" y1="450" x2="500" y2="450"/>
+          <line x1="50" y1="0" x2="50" y2="500"/><line x1="100" y1="0" x2="100" y2="500"/>
+          <line x1="150" y1="0" x2="150" y2="500"/><line x1="200" y1="0" x2="200" y2="500"/>
+          <line x1="250" y1="0" x2="250" y2="500"/><line x1="300" y1="0" x2="300" y2="500"/>
+          <line x1="350" y1="0" x2="350" y2="500"/><line x1="400" y1="0" x2="400" y2="500"/>
+          <line x1="450" y1="0" x2="450" y2="500"/>
+        </g>
+        <!-- Floor plan outline -->
+        <rect x="80" y="100" width="340" height="300" stroke="#6ab4e0" stroke-width="2" fill="none"/>
+        <!-- Interior walls -->
+        <line x1="220" y1="100" x2="220" y2="250" stroke="#6ab4e0" stroke-width="2"/>
+        <line x1="220" y1="280" x2="220" y2="400" stroke="#6ab4e0" stroke-width="2"/>
+        <line x1="80" y1="230" x2="220" y2="230" stroke="#6ab4e0" stroke-width="2"/>
+        <line x1="220" y1="200" x2="420" y2="200" stroke="#6ab4e0" stroke-width="2"/>
+        <!-- Door arcs -->
+        <path d="M220 250 A30 30 0 0 0 250 220" stroke="#6ab4e0" stroke-width="1" fill="none" stroke-dasharray="4 2"/>
+        <path d="M80 230 A30 30 0 0 0 110 200" stroke="#6ab4e0" stroke-width="1" fill="none" stroke-dasharray="4 2"/>
+        <!-- Dimension lines -->
+        <line x1="80" y1="420" x2="420" y2="420" stroke="#c8b89a" stroke-width="1" marker-start="url(#arr)" marker-end="url(#arr)"/>
+        <line x1="80" y1="415" x2="80" y2="425" stroke="#c8b89a" stroke-width="1"/>
+        <line x1="420" y1="415" x2="420" y2="425" stroke="#c8b89a" stroke-width="1"/>
+        <text x="250" y="440" fill="#c8b89a" font-family="monospace" font-size="11" text-anchor="middle">34'-0"</text>
+        <line x1="440" y1="100" x2="440" y2="400" stroke="#c8b89a" stroke-width="1"/>
+        <line x1="435" y1="100" x2="445" y2="100" stroke="#c8b89a" stroke-width="1"/>
+        <line x1="435" y1="400" x2="445" y2="400" stroke="#c8b89a" stroke-width="1"/>
+        <text x="465" y="255" fill="#c8b89a" font-family="monospace" font-size="11" text-anchor="middle" transform="rotate(90,465,255)">30'-0"</text>
+        <!-- Room labels -->
+        <text x="145" y="175" fill="#6ab4e0" font-family="monospace" font-size="9" text-anchor="middle">LIVING</text>
+        <text x="320" y="155" fill="#6ab4e0" font-family="monospace" font-size="9" text-anchor="middle">STUDIO</text>
+        <text x="145" y="320" fill="#6ab4e0" font-family="monospace" font-size="9" text-anchor="middle">DINING</text>
+        <text x="320" y="315" fill="#6ab4e0" font-family="monospace" font-size="9" text-anchor="middle">KITCHEN</text>
+        <!-- Title block -->
+        <rect x="80" y="50" width="340" height="35" stroke="#6ab4e0" stroke-width="1" fill="none"/>
+        <text x="250" y="70" fill="#6ab4e0" font-family="monospace" font-size="11" text-anchor="middle">CLARK HS ARCHITECTURE CLUB — STUDENT DESIGN 01</text>
+        <!-- North arrow -->
+        <circle cx="455" cy="75" r="18" stroke="#c8b89a" stroke-width="1" fill="none"/>
+        <text x="455" y="65" fill="#c8b89a" font-family="monospace" font-size="9" text-anchor="middle">N</text>
+        <polygon points="455,68 451,80 455,78 459,80" fill="#c8b89a"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <div class="section-header">
+      <span class="section-num">01 —</span>
+      <h2 class="section-title">Who We Are</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-content">
+      <p>
+        Clark Architecture Club is a student-led organization at Ed W. Clark High School dedicated to exploring the world of design, architecture, and the built environment.
+      </p>
+      <p>
+        We believe great design starts with curiosity. Our members learn to see the world differently — to question why a building feels the way it does, how a city block shapes daily life, and what it takes to design a space that serves its community.
+      </p>
+      <p>
+        Whether you want to pursue architecture in college, study urban planning, or simply love the creativity of design, there's a place for you here. No experience required.
+      </p>
+    </div>
+  </div>
+  <div class="about-sidebar">
+    <div class="objectives">
+      <div class="pillar-num">Pillar 01</div>
+      <h3>Design Thinking</h3>
+      <p>We study how great designers approach problems — from sketching concepts to iterating on models and presenting finished work.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">Pillar 02</div>
+      <h3>Technical Skills</h3>
+      <p>Hand drafting, 3D modeling with SketchUp and Tinkercad, perspective drawing, and reading architectural plans.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">Pillar 03</div>
+      <h3>Community Impact</h3>
+      <p>We design with real context in mind — studying our Las Vegas neighborhoods and thinking about how urban design shapes communities.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">Pillar 04</div>
+      <h3>College & Career Prep</h3>
+      <p>Guest speakers, field trips, portfolio guidance, and connections to architecture and design programs across Nevada and beyond.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div style="padding: 0 0 3rem;">
+    <div class="section-header">
+      <span class="section-num">02 —</span>
+      <h2 class="section-title">Our Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <p style="color: var(--warm); font-size: 1rem; max-width: 500px; line-height: 1.8;">
+      From semester-long design challenges to quick charrettes, our members produce real work. Many of these projects are submitted to national competitions for critique and awards, while others are purely for learning and fun. Here are a few highlights from recent years — click to see more details on each project.
+    </p>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-tag">Design Challenge · 2024</div>
+      <h3>Desert Community Center</h3>
+      <p>Members designed a community gathering space adapted to Las Vegas's desert climate — passive cooling, shading, and indigenous material palettes.</p>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-card">
+      <div class="project-tag">Urbanism · 2024</div>
+      <h3>Reimagine Sahara Ave</h3>
+      <p>A street-level redesign proposal for a stretch of Sahara Avenue — wider sidewalks, transit shelters, small retail activation, and green corridors.</p>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-card">
+      <div class="project-tag">Model Build · 2023</div>
+      <h3>Tiny House Challenge</h3>
+      <p>Students designed and built 1:50 scale tiny house models under a strict 400 sq ft constraint, exploring efficiency and livability.</p>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-card" style="border-top: 1px solid rgba(245,241,232,0.15);">
+      <div class="project-tag">Adaptive Reuse · 2023</div>
+      <h3>Vegas Motel Revival</h3>
+      <p>Teams selected a shuttered mid-century motel along Fremont Street and proposed adaptive reuse into mixed-use affordable housing.</p>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-card" style="border-top: 1px solid rgba(245,241,232,0.15);">
+      <div class="project-tag">Sustainability · 2024</div>
+      <h3>Net-Zero Clark Campus</h3>
+      <p>An ongoing proposal for retrofitting Clark High School's campus with solar shading, stormwater management, and outdoor learning spaces.</p>
+      <div class="project-arrow">→</div>
+    </div>
+    <div class="project-card" style="border-top: 1px solid rgba(245,241,232,0.15);">
+      <div class="project-tag">Open Brief · 2024</div>
+      <h3>Annual Design Showcase</h3>
+      <p>Each spring, members submit independent work to our juried showcase — open to all media, scales, and design topics of personal interest.</p>
+      <div class="project-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- MEETINGS -->
+<section id="meetings">
+  <div class="section-header">
+    <span class="section-num">03 —</span>
+    <h2 class="section-title">Meetings & Schedule</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="meetings-layout">
+    <div class="meeting-info">
+      <h2>We meet every other week throughout the school year.</h2>
+      <p>Sessions are a mix of workshops, design critiques, guest presentations, and collaborative project work. All skill levels welcome.</p>
+      <div class="meeting-detail">
+        <div class="detail-icon">📅</div>
+        <div>
+          <div class="detail-label">Day</div>
+          <div class="detail-value">Every other Monday</div>
+        </div>
+      </div>
+      <div class="meeting-detail">
+        <div class="detail-icon">⏰</div>
+        <div>
+          <div class="detail-label">Time</div>
+          <div class="detail-value">2:30 PM – 3:00 PM</div>
+        </div>
+      </div>
+      <div class="meeting-detail">
+        <div class="detail-icon">📍</div>
+        <div>
+          <div class="detail-label">Location</div>
+          <div class="detail-value">Room we need an advisor</div>
+        </div>
+      </div>
+      <div class="meeting-detail">
+        <div class="detail-icon">💵</div>
+        <div>
+          <div class="detail-label">Membership Dues</div>
+          <div class="detail-value">$10 / year</div>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-card">
+      <h3>2026–27 Key Dates</h3>
+      <div class="schedule-item">
+        <div class="schedule-month">SEP</div>
+        <div class="schedule-event">
+          <strong>Kickoff</strong>
+          Club orientation, i hate icebreakers
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-month">OCT</div>
+        <div class="schedule-event">
+          <strong>event</strong>
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-month">NOV</div>
+        <div class="schedule-event">
+          <strong>Design Challenge Submission: AIA Desert Home</strong>
+          Teams submit entries to the AIA Las Vegas annual student design competition — this year's theme is "Desert Home: Resilient Living in Arid Climates"
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-month">JAN</div>
+        <div class="schedule-event">
+          <strong>3D Modeling Workshop</strong>
+          Intro to SketchUp and digital presentation
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-month">FEB</div>
+        <div class="schedule-event">
+          <strong>Guest Speaker: Local Architect</strong>
+          idk bro
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-month">APR</div>
+        <div class="schedule-event">
+          <strong>Annual Design Showcase</strong>
+          Open jury, parents and faculty invited
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-header">
+    <span class="section-num">04 —</span>
+    <h2 class="section-title">Work & Process</h2>
+    <div class="section-line"></div>
+  </div>
+  <p class="gallery-intro">"Curated by our members</p>
+  <div class="gallery-grid">
+    <div class="gallery-item" style="background: #2d3a4a;">
+      <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        
+      </svg>
+      <div class="gallery-caption">Downtown redevelopment project</div>
+    </div>
+    <div class="gallery-item" style="background: #3d3830;">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+      </svg>
+      <div class="gallery-caption">Chinatown — Student Work</div>
+    </div>
+    <div class="gallery-item" style="background: #1e2a1e;">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        
+      </svg>
+      <div class="gallery-caption">project</div>
+    </div>
+    <div class="gallery-item" style="background: #2a2426;">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        
+      </svg>
+      <div class="gallery-caption">project</div>
+    </div>
+    <div class="gallery-item" style="background: #252030;">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+      </svg>
+      <div class="gallery-caption">3d cad project</div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section id="join">
+  <div class="section-header">
+    <span class="section-num">05 —</span>
+    <h2 class="section-title">Join the Club</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="join-layout">
+    <div class="join-text">
+      <h2>Open to all Clark students, all grades, all experience levels.</h2>
+      <p>
+        You don't need to know how to draw or use design software to join. What matters is curiosity — an interest in how the world is built and a willingness to learn and create.
+      </p>
+      <ul class="perks">
+        <li>Access to model-making supplies and materials</li>
+        <li>Field trips to architectural sites in Las Vegas and Henderson</li>
+        <li>Guest speakers from local architecture and design firms</li>
+        <li>Portfolio guidance for students applying to design programs</li>
+        <li>Annual Design Showcase — celebrate and share your work</li>
+        <li>Club leadership positions available for returning members</li>
+      </ul>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf5DEJbWwFq8qBIjVLiei53IbbU0VEppVUfPHcmWXWJcTZeyw/viewform" class="btn-primary" style="display: inline-block;">Membership Form</a>
+    </div>
+    <div class="join-form">
+      <h3>Connect With Us</h3>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label>Grade</label>
+        <select>
+          <option value="" disabled selected>Select your grade</option>
+          <option>Freshman (9th)</option>
+          <option>Sophomore (10th)</option>
+          <option>Junior (11th)</option>
+          <option>Senior (12th)</option>
+          <option>Other / Prefer not to say</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>How can we help you?</label>
+        <textarea placeholder="A sentence or two is great..."></textarea>
+      </div>
+      <button class="form-submit" onclick="handleSubmit()">Send Form</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-num">06 —</span>
+    <h2 class="section-title">Get in Touch</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-item">
+      <h4>Faculty Advisor</h4>
+      <p>Mr. / Ms. [Advisor Name]<br>
+      <a href="mailto:president@clarkhsarchitecture.org">president@clarkhsarchitecture.org</a></p>
+    </div>
+    <div class="contact-item">
+      <h4>Club Email</h4>
+      <p>Reach us directly at<br>
+      <a href="mailto:president@clarkhsarchitecture.org">president@clarkhsarchitecture.org</a></p>
+    </div>
+    <div class="contact-item">
+      <h4>School Address</h4>
+      <p>Ed W. Clark High School<br>
+      4291 Pennwood Ave<br>
+      Las Vegas, NV 89102<br>
+      Room WE NEED AN ADVISOR</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    Clark Architecture Club · Ed W. Clark High School · Las Vegas, NV<br>
+    © 2026–27 School Year
+  </div>
+  <div class="footer-right">Designed by the Architecture Club</div>
+</footer>
+
+<script>
+  function handleSubmit() {
+    const btn = document.querySelector('.form-submit');
+    btn.textContent = 'Sent! We\'ll be in touch.';
+    btn.style.background = '#3d3830';
+    btn.disabled = true;
+  }
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    const cta = document.querySelector('.nav-cta');
+    if (links.style.display === 'flex') {
+      links.style.display = '';
+      cta.style.display = '';
+    } else {
+      links.style.display = 'flex';
+      links.style.flexDirection = 'column';
+      links.style.position = 'absolute';
+      links.style.top = '60px';
+      links.style.left = '0';
+      links.style.right = '0';
+      links.style.background = 'var(--paper)';
+      links.style.padding = '1.5rem';
+      links.style.borderBottom = '1px solid var(--line)';
+      cta.style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>
